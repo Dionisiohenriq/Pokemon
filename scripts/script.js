@@ -23,24 +23,25 @@ function getPokemonByName(pokemonName) {
 }
 
 function getAllPokemon() {
-	return fetch(`${url}/?limit=0&offset=0`)
+	return fetch(`${url}/?limit=151&offset=0`)
 		.then((response) => response.json())
 		.then((data) => {
 			const pokemons = data;
-            
-            if(pokemonContainer.hasChildNodes()) pokemonContainer.removeChild(pokemonContainer.firstChild);
-    
+
+			if (pokemonContainer.hasChildNodes())
+				pokemonContainer.removeChild(pokemonContainer.firstChild);
+
 			for (const pokemon of pokemons.results) {
-                fetch(`${url}/${pokemon.name}`)
-                    .then((data) => data.json())
-                    .then((results) => {
-                        const pokemon = results;
-                        createPokemonCard(pokemon);
-                    })
-                    .catch((error) => {
-                        console.error("Error:", error);
-                        pokemonContainer.innerHTML = "Pokémon não encontrado";
-                    });
+				fetch(`${url}/${pokemon.name}`)
+					.then((data) => data.json())
+					.then((results) => {
+						const pokemon = results;
+						createPokemonCard(pokemon);
+					})
+					.catch((error) => {
+						console.error("Error:", error);
+						pokemonContainer.innerHTML = "Pokémon não encontrado";
+					});
 			}
 		})
 		.catch((error) => {
